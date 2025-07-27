@@ -2,3 +2,6 @@ ib_insync
 pandas
 python-dotenv
 requests
+pyinstaller
+matplotlib
+mplfinance
