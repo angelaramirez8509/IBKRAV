@@ -1,3 +1,5 @@
 ib_insync
 pandas
 python-telegram-bot
+asyncio
+dotenv

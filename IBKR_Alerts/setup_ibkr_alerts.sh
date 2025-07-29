@@ -24,3 +24,5 @@ echo "✅ Proyecto reorganizado con patrón MVC"
 echo "Ejecuta:
   source venv/bin/activate
   python run.py"
+  # desactivar
+  deactivate
