@@ -82,10 +82,6 @@ def cargar_analizar_desde_data():
         )
 
         nombre_grafico = f"{tipo} AAPL_demo - {vela.strftime('%Y%m%d_%H%M')}.png"
-
-        with open("resultados/graficos.log", "a") as log:
-            log.write(f"{pd.Timestamp.now()} -> {nombre_grafico}\n")
-
         messagebox.showinfo(
             "Resultado",
             f"Resultado: {tipo} en vela {vela}\nGráfico generado: {nombre_grafico}"
@@ -93,7 +89,6 @@ def cargar_analizar_desde_data():
 
     except Exception as e:
         messagebox.showerror("Error al cargar desde data", str(e))
-
 
 # GUI principal
 root = tk.Tk()

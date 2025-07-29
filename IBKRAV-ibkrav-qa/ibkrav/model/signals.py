@@ -1,12 +1,7 @@
-import pandas as pd
-import numpy as np
-from pathlib import Path
-from datetime import datetime
-import matplotlib.pyplot as plt
-import mplfinance as mpf
-from .graficos import graficar_segmento
 
-#Graficar = True cuando el .log no exista
+import pandas as pd
+from ibkrav.view.graficos import graficar_segmento
+
 def detectar_reversion_tras_caida(df: pd.DataFrame, graficar=True, show=False, style=None):
     df = df.copy()
     df["MA20"] = df["close"].rolling(window=20).mean()
@@ -18,7 +13,6 @@ def detectar_reversion_tras_caida(df: pd.DataFrame, graficar=True, show=False, s
 
     if df.empty:
         raise ValueError("No hay suficientes datos después de calcular los promedios móviles.")
-
 
     ultima = df.iloc[-1]
     penultima = df.iloc[-2]
@@ -33,29 +27,8 @@ def detectar_reversion_tras_caida(df: pd.DataFrame, graficar=True, show=False, s
     else:
         tipo = "Sin caída significativa"
 
-    timestamp = df.index[-1].strftime("%Y%m%d_%H%M")
-    nombre = f"{tipo.replace(' ', '_')}_AAPL_demo_{timestamp}"
-    filename = f"resultados/{nombre}.png"
-
     if graficar:
-        mpf.plot(
-            df,
-            type='candle',
-            style=style or 'charles',
-            mav=(20, 40, 100, 200),
-            volume=True,
-            title=f"{tipo} - {idx}",
-            savefig=filename,
-            show_nontrading=True,
-            tight_layout=True
-        )
-        Path("resultados/graficos.log").parent.mkdir(parents=True, exist_ok=True)
-        with open("resultados/graficos.log", "a") as log:
-            log.write(f"{datetime.now()} -> {filename}\n")
-
-        if show:
-            from PIL import Image
-            img = Image.open(filename)
-            img.show()
+        nombre = f"caida_{tipo.lower().replace(' ', '_')}_AAPL_demo"
+        graficar_segmento(df, titulo=f"{tipo} AAPL_demo", nombre=f"{nombre}.png", style=style, show=show)
 
     return tipo, df.index[-1]

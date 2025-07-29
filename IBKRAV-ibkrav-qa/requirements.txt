@@ -5,3 +5,5 @@ requests
 pyinstaller
 matplotlib
 mplfinance
+ttkbootstrap
+python3-pytest

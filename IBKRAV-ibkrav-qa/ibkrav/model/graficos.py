@@ -1,43 +1,47 @@
 import mplfinance as mpf
 from pathlib import Path
 from datetime import datetime
-import pandas as pd
+from PIL import Image
 
-def graficar_segmento(df: pd.DataFrame, nombre="grafico", style=None, show=False, filename=None) -> str:
-    if style is None:
-        style = mpf.make_mpf_style(
-            base_mpf_style='charles',
-            rc={
-                'axes.facecolor': 'black',
-                'figure.facecolor': 'black',
-                'savefig.facecolor': 'black'
-            },
-            marketcolors=mpf.make_marketcolors(
-                up='green', down='red', edge='inherit', wick='inherit', volume='in'),
-            mavcolors=['purple', 'red', 'green', 'yellow']  # MA20, MA40, MA100, MA200
-        )
+def graficar_segmento(df, titulo="Gráfico", nombre=None, style=None, show=False):
+    """
+    Genera y guarda un gráfico de velas con medias móviles y colores personalizados.
+    """
+    if df.empty:
+        raise ValueError("El DataFrame está vacío, no se puede graficar.")
 
-    Path("resultados").mkdir(parents=True, exist_ok=True)
+    style = style or mpf.make_mpf_style(
+        base_mpf_style='charles',
+        rc={'axes.facecolor': 'black', 'figure.facecolor': 'black'},
+        marketcolors=mpf.make_marketcolors(
+            up='green', down='red',
+            edge='inherit', wick='inherit', volume='in'
+        ),
+        mavcolors=['purple', 'red', 'green', 'yellow']  # MA20, MA40, MA100, MA200
+    )
 
-    if filename is None:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"resultados/{nombre}_{timestamp}.png"
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+    nombre_archivo = nombre or f"grafico_{timestamp}.png"
+    path_resultado = Path("resultados") / nombre_archivo
+    path_resultado.parent.mkdir(parents=True, exist_ok=True)
 
     mpf.plot(
         df,
         type='candle',
-        mav=(20, 40, 100, 200),
         style=style,
+        mav=(20, 40, 100, 200),
         volume=True,
-        title=nombre,
+        title=titulo,
+        savefig=str(path_resultado),
         tight_layout=True,
-        show_nontrading=True,
-        savefig=filename,
-        show=show
+        show_nontrading=True
     )
 
-    # Registrar en log
     with open("resultados/graficos.log", "a") as log:
-        log.write(f"{pd.Timestamp.now()} -> {filename}\n")
+        log.write(f"{datetime.now()} -> {path_resultado}\n")
 
-    return filename
+    if show:
+        img = Image.open(path_resultado)
+        img.show()
+
+    return path_resultado

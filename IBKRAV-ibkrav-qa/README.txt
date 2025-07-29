@@ -1,3 +1,9 @@
+#Ejecutar test
+
+pytest tests/test_telegram_utils.py
+
+
+
 #Ejecución de Dockerfile
 docker build -t ibkr_alerts .
 docker run --rm ibkr_alerts
