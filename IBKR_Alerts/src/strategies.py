@@ -38,7 +38,7 @@ def check_moving_averages(ib, symbol):
     ma40 = sum(closes[-40:]) / 40
     ma100 = sum(closes[-100:]) / 100
     ma200 = sum(closes[-200:]) / 200
-
+    send_telegram("Prueba a telegram")
     # Ejemplo de alerta si MA20 cruza MA40
     if ma20 > ma40:
         msg = f"🚀 {symbol}: MA20 ({ma20:.2f}) > MA40 ({ma40:.2f})"
