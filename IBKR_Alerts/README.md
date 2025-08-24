@@ -1,3 +1,3 @@
 # IBKRAV MVC
-
-Ejecuta: python run.py
+# Ejecutar la app
+./setup_ibkr_alerts.sh

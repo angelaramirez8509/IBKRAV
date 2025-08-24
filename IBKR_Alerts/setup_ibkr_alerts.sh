@@ -19,10 +19,12 @@ else
   source venv/bin/activate
 fi
 
+python3 "src/main.py"
+
 # Mensaje final
 echo "✅ Proyecto reorganizado con patrón MVC"
 echo "Ejecuta:
   source venv/bin/activate
-  python run.py"
+  python3 src/main.py"
   # desactivar
   deactivate
