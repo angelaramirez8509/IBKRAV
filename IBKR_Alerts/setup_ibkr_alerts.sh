@@ -17,9 +17,9 @@ if [[ ! -d venv ]]; then
 else
   python3 -m venv venv
   source venv/bin/activate
+  python3 "src/main.py"
 fi
 
-python3 "src/main.py"
 
 # Mensaje final
 echo "✅ Proyecto reorganizado con patrón MVC"

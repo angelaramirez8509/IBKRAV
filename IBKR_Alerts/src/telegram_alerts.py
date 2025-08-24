@@ -1,7 +1,7 @@
 # telegram_alerts.py
 # Requiere: python-telegram-bot>=20.0
 import asyncio
-import os, requests
+import os
 from telegram import Bot
 from dotenv import load_dotenv
 
@@ -9,11 +9,6 @@ load_dotenv()  # Cargar variables desde .env
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-r = requests.get(f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/getUpdates", timeout=10)
-r.raise_for_status()
-for u in r.json().get("result", []):
-    chat = u["message"]["chat"]
-    print(chat["id"], chat.get("title") or chat.get("username") or chat.get("first_name"))
 
 async def send_telegram(message: str):
     bot = Bot(token=TELEGRAM_TOKEN)
